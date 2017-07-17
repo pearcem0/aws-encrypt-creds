@@ -1,0 +1,16 @@
+#!/bin/bash
+
+function encryptcreds(){
+  openssl enc -aes-256-cbc -salt -in ~/.aws/credentials -out ~/.aws/credentials.enc && sudo mv ~/.aws/credentials.enc  ~/.aws/credentials
+}
+
+decryptcreds() {
+  openssl enc -aes-256-cbc -d -in ~/.aws/credentials -out ~/.aws/credentials.unenc && sudo mv ~/.aws/credentials.unenc ~/.aws/credentials
+
+}
+
+if [ "$1" = "encrypt" ] ; then
+  encryptcreds
+else
+  decryptcreds
+fi
