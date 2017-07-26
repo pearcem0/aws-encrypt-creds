@@ -45,8 +45,25 @@ else
 fi
 }
 
-if [ "$1" = "encrypt" ] ; then
-  encryptcreds
-else
-  decryptcreds
+if [ "$#" -lt 1 ] ; then
+  echo "Please provide a flag (-e or -d)"
 fi
+
+while getopts "ed" opt; do
+  case $opt in
+    e)
+      encryptcreds
+      ;;
+    d)
+      decryptcreds
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG" >&2
+      exit 1
+      ;;
+    :)
+      echo "Option -$OPTARG requires an argument." >&2
+      exit 1
+      ;;
+  esac
+done
